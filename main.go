@@ -27,6 +27,8 @@ func main() {
 	mux.HandleFunc("/crear", controllers.Crear)
 	mux.HandleFunc("/insertar", controllers.Insertar)
 	mux.HandleFunc("/borrar", controllers.Borrar)
+	mux.HandleFunc("/editar", controllers.Editar)
+	mux.HandleFunc("/actualizar", controllers.Actualizar)
 
 	mux.Handle("/views/", http.StripPrefix("/views/", TemplatesFile)) //! Mux of Templates file
 

@@ -29,7 +29,7 @@ func Insertar(w http.ResponseWriter, r *http.Request) {
 		correo := r.FormValue("correo")
 		password := r.FormValue("password")
 
-		models.CreateEmpleado(usuario, nombre, correo, password)
+		models.CreateEmpleado(usuario, nombre, password, correo)
 		http.Redirect(w, r, "/", http.StatusFound)
 
 	}
@@ -41,6 +41,39 @@ func Borrar(w http.ResponseWriter, r *http.Request) {
 
 	borrar := models.GetEmp(idInt)
 	borrar.Delete()
+
+	http.Redirect(w, r, "/", http.StatusFound)
+
+}
+
+func Editar(w http.ResponseWriter, r *http.Request) {
+
+	id := r.URL.Query().Get("id")
+	idInt, _ := strconv.Atoi(id)
+
+	empl := models.GetEmp(idInt)
+
+	renderTemplate(w, "editar", empl)
+}
+
+func Actualizar(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodPost { // si hay datos post, vamos a reseccionar esos datos
+
+		id := r.FormValue("id")
+		idInt, _ := strconv.Atoi(id)
+
+		empl := models.GetEmp(idInt)
+
+		empl.Id = int64(idInt)
+		empl.User = r.FormValue("usuario")
+		empl.Name = r.FormValue("nombre")
+		empl.Password = r.FormValue("password")
+		empl.Email = r.FormValue("correo")
+
+		empl.Save()
+
+	}
 
 	http.Redirect(w, r, "/", http.StatusFound)
 

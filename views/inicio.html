@@ -6,7 +6,6 @@
         <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Usuario</th>
                 <th>Nombre</th>
                 <th>Contraseña</th>
@@ -17,12 +16,11 @@
         <tbody>
             {{ range.}}
             <tr>
-                <td>{{.Id}}</td>
                 <td>{{.User}}</td>
                 <td>{{.Name}}</td>
                 <td>{{.Password}}</td>
                 <td>{{.Email}}</td>
-                <td>Editar {{.Id}} | 
+                <td><a name="" id="" class="btn btn-warning" href="/editar?id={{.Id}}" role="button">Editar</a> | 
                     <a name="" id="" class="btn btn-danger" href="/borrar?id={{.Id}}" role="button">Borrar</a>
                 </td>
             </tr>

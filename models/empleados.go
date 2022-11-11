@@ -76,7 +76,7 @@ func GetEmp(id int) *Empleados {
 
 // actualizar registro
 func (e *Empleados) update() {
-	sql := "UPDATE empleados SET username=?, name=? password=?, email=? WHERE id=?"
+	sql := "UPDATE empleados SET username=?, name=?, password=?, email=? WHERE id=?"
 	db.Exec(sql, e.User, e.Name, e.Password, e.Email, e.Id)
 }
 
