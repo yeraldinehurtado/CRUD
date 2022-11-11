@@ -42,7 +42,7 @@ func CreateEmpleado(username, name, password, email string) *Empleados {
 
 // Insertar registro
 func (e *Empleados) insert() {
-	sql := "INSERT empleados SET username=?, name=? password=?, email=?"
+	sql := "INSERT empleados SET username=?, name=?, password=?, email=?"
 	result, _ := db.Exec(sql, e.User, e.Name, e.Password, e.Email)
 	e.Id, _ = result.LastInsertId()
 }
@@ -50,15 +50,15 @@ func (e *Empleados) insert() {
 // listar todos los registros
 func ListEmp() Empleado { // devolver lista de empleads
 	sql := "SELECT id, username, name, password, email FROM empleados"
-	emp := Empleado{}
+	Empleado := Empleado{}
 	rows, _ := db.Query(sql) // usar query para obtener todos los registros
 	for rows.Next() {
-		empl := Empleados{}
-		rows.Scan(&empl.Id, &empl.User, &empl.Name, &empl.Password, &empl.Email) //recuperar id, username, name, password y email
-		emp = append(emp, empl)
+		Empleados := Empleados{}
+		rows.Scan(&Empleados.Id, &Empleados.User, &Empleados.Name, &Empleados.Password, &Empleados.Email) //recuperar id, username, name, password y email
+		Empleado = append(Empleado, Empleados)
 	} // recorrer el rows para obtener cada registro
 
-	return emp
+	return Empleado
 }
 
 // obtener un registro
@@ -75,22 +75,22 @@ func GetEmp(id int) *Empleados {
 }
 
 // actualizar registro
-func (e *Empleados) update(){
+func (e *Empleados) update() {
 	sql := "UPDATE empleados SET username=?, name=? password=?, email=? WHERE id=?"
 	db.Exec(sql, e.User, e.Name, e.Password, e.Email, e.Id)
 }
 
-//Guardar o editar registro
-func (e *Empleados) Save(){
+// Guardar o editar registro
+func (e *Empleados) Save() {
 	if e.Id == 0 {
 		e.insert()
-	}else {
+	} else {
 		e.update()
 	}
 }
 
-//eliminar un registro
-func (e *Empleados) Delete(){
+// eliminar un registro
+func (e *Empleados) Delete() {
 	sql := "DELETE FROM empleados WHERE id=?"
 	db.Exec(sql, e.Id)
 }

@@ -1,24 +1,32 @@
 {{ define "inicio"}}
 {{ template "cabecera"}}
 
-    <a name="" id="" class="btn btn-primary" href="/crear" role="button">Agregar</a>
+    <a name="inicio" id="inicio" class="btn btn-primary" href="/crear" role="button">Agregar</a>
 
         <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Usuario</th>
                 <th>Nombre</th>
+                <th>Contraseña</th>
                 <th>Correo</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
+            {{ range.}}
             <tr>
-                <td>1</td>
-                <td>Yeraldine</td>
-                <td>yeral@mail.com</td>
-                <td>Editar | Eliminar</td>
+                <td>{{.Id}}</td>
+                <td>{{.User}}</td>
+                <td>{{.Name}}</td>
+                <td>{{.Password}}</td>
+                <td>{{.Email}}</td>
+                <td>Editar {{.Id}} | 
+                    <a name="" id="" class="btn btn-danger" href="/borrar?id={{.Id}}" role="button">Borrar</a>
+                </td>
             </tr>
+            {{end}}
         </tbody>
       </table>
 

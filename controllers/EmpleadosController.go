@@ -3,21 +3,22 @@ package controllers
 import (
 	"gomysql/models"
 	"net/http"
+	"strconv"
 	"text/template"
 )
 
 var plantillas = template.Must(template.ParseGlob("views/*"))
 
-func Inicio(w http.ResponseWriter, r *http.Request) {
+func Inicio(w http.ResponseWriter, r *http.Request) { // request es lo que estan enviando
 	lista := models.ListEmp()
-
-	renderTemplate(w, "incio.html", lista)
+	renderTemplate(w, "inicio", lista)
 	//plantillas.ExecuteTemplate(w, "inicio", lista)
 
 }
 
 func Crear(w http.ResponseWriter, r *http.Request) {
-	plantillas.ExecuteTemplate(w, "crear", nil)
+	renderTemplate(w, "crear", nil)
+	//plantillas.ExecuteTemplate(w, "crear", nil)
 }
 
 func Insertar(w http.ResponseWriter, r *http.Request) {
@@ -34,16 +35,26 @@ func Insertar(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func Borrar(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	idInt, _ := strconv.Atoi(id)
+
+	borrar := models.GetEmp(idInt)
+	borrar.Delete()
+
+	http.Redirect(w, r, "/", http.StatusFound)
+
+}
 
 func handlerError(w http.ResponseWriter, status int) {
-    w.WriteHeader(status)
-    //errorTemplate.Execute(w, nil)
+	w.WriteHeader(status)
+	//errorTemplate.Execute(w, nil)
 }
 
 func renderTemplate(w http.ResponseWriter, name string, data interface{}) {
-    err := plantillas.ExecuteTemplate(w, name, data)
+	err := plantillas.ExecuteTemplate(w, name, data)
 
-    if err != nil {
-        handlerError(w, http.StatusInternalServerError)
-    }
+	if err != nil {
+		handlerError(w, http.StatusInternalServerError)
+	}
 }
